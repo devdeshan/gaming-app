@@ -28,7 +28,7 @@ public class RaffleService {
         List<Ticket> tickets = new ArrayList<>();
         for (int i = 0; i < numberOfTickets; i++) {
             tickets.add(getTicket(userName));
-            raffleStore.setPotSize(5);
+            raffleStore.setPotSize(5);// Increase pot size by 5 for every ticket purchase
         }
         raffleStore.setTickets(tickets);
         List<Ticket> purchasedTickets = raffleStore.getTicketsByUserName(userName);
@@ -75,8 +75,8 @@ public class RaffleService {
                 ticket -> ticket.getNumList().
                         stream().
                         filter(winningTicket::contains).
-                        count()));
-        Map<GroupType, Double> winningPriceByGroup = getWinningPriceByGroup();
+                        count())); // tickets grouped by count of winning numbers in the ticket
+        Map<GroupType, Double> winningPriceByGroup = getWinningPriceByGroup(); // calculate the winning price for each group based on the total pot size.
         groupedTickets.forEach((k, v) -> {
 
             if (k == 2) {
@@ -96,8 +96,8 @@ public class RaffleService {
         if (!winningTicketsInGroup.isEmpty()) {
             double groupWinningPrice = winningPriceByGroup.get(groupType);
             raffleStore.setPotSize(-groupWinningPrice);
-            double winningPrice = groupWinningPrice / winningTicketsInGroup.size();
-            Map<String, List<Ticket>> wonTicketsByUserName = winningTicketsInGroup.stream().collect(Collectors.groupingBy(Ticket::getUserName));
+            double winningPrice = groupWinningPrice / winningTicketsInGroup.size();// prize for each winner in a group
+            Map<String, List<Ticket>> wonTicketsByUserName = winningTicketsInGroup.stream().collect(Collectors.groupingBy(Ticket::getUserName));// group the winners by name in the same winning group
             return wonTicketsByUserName.entrySet().stream().map(entry -> String.format(CommonConstants.WINNING_OUTPUT, entry.getKey(), entry.getValue().size(), String.format("%.2f",winningPrice * entry.getValue().size()))
             ).collect(Collectors.toList());
         }
