@@ -2,13 +2,14 @@ package com.gic.raffleapp;
 
 import com.gic.raffleapp.datastore.RaffleStore;
 import com.gic.raffleapp.datastore.impl.InMemoryRaffleStore;
+import com.gic.raffleapp.datastore.impl.RedisRaffleStore;
 import com.gic.raffleapp.service.RaffleService;
 
 import java.util.Scanner;
 
 public class MainApp {
     public static void main(String[] args) {
-        RaffleStore raffleStore = new InMemoryRaffleStore();
+        RaffleStore raffleStore = new RedisRaffleStore();
         raffleStore.initializeStore();
         RaffleService raffleService = new RaffleService(raffleStore);
         boolean drawStatus = false;
@@ -38,6 +39,7 @@ public class MainApp {
                 scanner.nextLine();
                 scanner.nextLine();
             } catch (Exception ex) {
+                ex.printStackTrace();
                 System.out.println("Error in processing raffle");
             }
         }

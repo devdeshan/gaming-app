@@ -4,7 +4,7 @@ java -jar raffle-app-1.0-SNAPSHOT.jar
 
 #Data store
 
-Inmemory datastore was used in this implementation. It can be converted to use exteranl database with MySQL or Redis.
+Redis was used as the database in this implementation. It can be converted to use external database with MySQL or Redis.
 
 # Raffle App
 
